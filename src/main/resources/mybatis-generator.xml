@@ -2,7 +2,7 @@
 <!DOCTYPE generatorConfiguration
   PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
   "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
-
+<!-- 开发时期使用的,开发结束后可删除 -->
 <generatorConfiguration>
 
 	<!-- 配置mysql 驱动jar包路径.用了绝对路径 -->
@@ -44,13 +44,13 @@
 		</javaClientGenerator>
 
 		<!-- 要对那些数据表进行生成操作，必须要有一个. -->
-		<table schema="mybatis" tableName="t_ds_devices"
-			domainObjectName="Device" enableCountByExample="true"
-			enableUpdateByExample="true" enableDeleteByExample="true"
-			enableSelectByExample="true" selectByExampleQueryId="true">
-			<generatedKey column="id" sqlStatement="JDBC"  
-                identity="true" />
+		<table schema="mybatis" tableName="t_share" domainObjectName="Share"
+			enableCountByExample="true" enableUpdateByExample="true"
+			enableDeleteByExample="true" enableSelectByExample="true"
+			selectByExampleQueryId="true">
+			<!-- 返回主键值 -->
+			<generatedKey column="id" sqlStatement="JDBC" identity="true" />
 		</table>
-	    <!-- 生成过的表t_ds_devices/ -->
+		<!-- 生成过的表t_device/t_users/t_share -->
 	</context>
 </generatorConfiguration>

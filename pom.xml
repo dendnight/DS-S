@@ -30,6 +30,7 @@
 		<junit.version>4.11</junit.version>
 
 		<c3p0.version>0.9.1.2</c3p0.version>
+		<aspectjweaver.version>1.7.4</aspectjweaver.version>
 	</properties>
 
 	<dependencies>
@@ -123,6 +124,12 @@
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts2-json-plugin</artifactId>
 			<version>${struts2.json.plugin.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectjweaver.version}</version>
 		</dependency>
 
 

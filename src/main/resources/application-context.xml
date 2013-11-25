@@ -1,37 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
-    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-    http://www.springframework.org/schema/context
-    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
-
-	<!-- 属性文件读入 -->
-	<context:property-placeholder location="classpath:sql.properties" />
-
-	<!-- 注解探测器 -->
-	<context:component-scan base-package="ds.s" />
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context-3.0.xsd
+         http://www.springframework.org/schema/tx
+         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+         http://www.springframework.org/schema/aop 
+         http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
 	<!-- Provided by annotation-based configuration -->
 	<context:annotation-config />
+	<context:component-scan base-package="ds.s" />
 
-	<!--配置数据源 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
-		<property name="driverClassName"> <value>${jdbc.driver}</value> </property> 
-		<property name="url"> <value>${jdbc.url}</value> </property> <property name="username"> 
-		<value>${jdbc.username}</value> </property> <property name="password"> <value>${jdbc.password}</value> 
-		</property> </bean> -->
 	<!-- c3p0 connection pool configuration -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
 		<!-- 数据库驱动 -->
-		<property name="driverClass" value="${jdbc.driver}" />
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
 		<!-- 连接URL串 -->
-		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/ds" />
 		<!-- 连接用户名 -->
-		<property name="user" value="${jdbc.username}" />
+		<property name="user" value="root" />
 		<!-- 连接密码 -->
-		<property name="password" value="${jdbc.password}" />
+		<property name="password" value="123" />
 		<!-- 初始化连接池时连接数量为5个 -->
 		<property name="initialPoolSize" value="5" />
 		<!-- 允许最小连接数量为5个 -->
@@ -56,40 +50,40 @@
 		<property name="checkoutTimeout" value="10000" />
 	</bean>
 
-	<!-- 配置SqlSessionFactoryBean -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="configLocation" value="classpath:mybatis-configuration.xml" />
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-
-	<!-- 通过扫描的模式，扫描目录在ds/s/mapper的bean就可以了 -->
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="ds.s.mapper" />
-		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</bean>
-
-	<!-- 配置事务管理器，注意这里的dataSource和SqlSessionFactoryBean的dataSource要一致，不然事务就没有作用了 -->
-	<bean id="transactionManager"
+	<!--JDBC Transaction Manage -->
+	<bean name="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<tx:advice id="userTxAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="delete*" propagation="REQUIRED" read-only="false"
+				rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException" />
+			<tx:method name="insert*" propagation="REQUIRED" read-only="false"
+				rollback-for="java.lang.RuntimeException" />
+			<tx:method name="update*" propagation="REQUIRED" read-only="false"
+				rollback-for="java.lang.Exception" />
+
+			<tx:method name="find*" propagation="SUPPORTS" />
+			<tx:method name="get*" propagation="SUPPORTS" />
+			<tx:method name="select*" propagation="SUPPORTS" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="pc"
+			expression="execution(public * ds.s.service.*.*(..))" /> <!--把事务控制在Service层 -->
+		<aop:advisor pointcut-ref="pc" advice-ref="userTxAdvice" />
+	</aop:config>
+
+	<!--MyBatis integration with Spring as define sqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<!-- 配置事务的传播特性 -->
-	<bean id="baseTransactionProxy"
-		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
-		abstract="true">
-		<property name="transactionManager" ref="transactionManager" />
-		<property name="transactionAttributes">
-			<props>
-				<prop key="add*">PROPAGATION_REQUIRED</prop>
-				<prop key="edit*">PROPAGATION_REQUIRED</prop>
-				<prop key="remove*">PROPAGATION_REQUIRED</prop>
-				<prop key="insert*">PROPAGATION_REQUIRED</prop>
-				<prop key="update*">PROPAGATION_REQUIRED</prop>
-				<prop key="del*">PROPAGATION_REQUIRED</prop>
-				<prop key="*">readOnly</prop>
-			</props>
-		</property>
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="basePackage" value="ds.s.mapper"></property>
 	</bean>
-
 </beans>
