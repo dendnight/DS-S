@@ -34,10 +34,10 @@ public interface UserService {
 	 * @param imei
 	 * @param nickname
 	 */
-	User sign(String imei, String nickname);
+	User register(String imei, String nickname);
 
 	/**
-	 * 验证昵称
+	 * 验证昵称存在返回false
 	 * 
 	 * @param nickname
 	 * @return

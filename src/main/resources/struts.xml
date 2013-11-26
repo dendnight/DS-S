@@ -3,11 +3,12 @@
     "http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
-    
-	<!-- include
-	<include file="res/struts/struts-system.xml"></include> -->
-    
+
+	<!-- include <include file="res/struts/struts-system.xml"></include> -->
+
 	<!-- Constants -->
+	<constant name="struts.objectFactory" value="spring" />
+
 	<constant name="struts.i18n.encoding" value="UTF-8" />
 	<constant name="struts.action.extension" value="htm" />
 	<constant name="struts.serve.static" value="true" />
@@ -22,6 +23,7 @@
 
 	<!-- 提供json 格式的支持 -->
 	<package name="default" extends="json-default">
+
 		<interceptors>
 			<interceptor-stack name="baseInterceptorStack">
 				<interceptor-ref name="defaultStack" />
@@ -29,11 +31,22 @@
 		</interceptors>
 		<default-interceptor-ref name="baseInterceptorStack"></default-interceptor-ref>
 		<global-results>
-			<result name="timeout" type="redirect">
+			<result name="error" type="redirect">
 				/timeout.jsp
 			</result>
 		</global-results>
 
 	</package>
 
+	<package name="index" namespace="/index" extends="default">
+
+		<action name="login" class="ds.s.action.UserAction" method="login">
+			<result>/WEB-INF/view/main.jsp</result>
+			<result name="other" type="redirect">/timeout.jsp</result>
+		</action>
+		
+		<action name="sign" class="ds.s.action.UserAction" method="sign">
+		    <result>/sign.jsp</result>
+		</action>
+	</package>
 </struts>

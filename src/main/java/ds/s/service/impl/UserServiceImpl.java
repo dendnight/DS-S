@@ -2,8 +2,9 @@ package ds.s.service.impl;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ds.s.mapper.DeviceMapper;
@@ -33,10 +34,10 @@ import ds.s.service.UserService;
 @Service("UserService")
 public class UserServiceImpl implements UserService {
 
-	@Autowired
+	@Resource
 	private DeviceMapper deviceMapper;
 
-	@Autowired
+	@Resource
 	private UserMapper userMapper;
 
 	public User login(String imei) {
@@ -57,7 +58,7 @@ public class UserServiceImpl implements UserService {
 		return userMapper.selectByPrimaryKey(list.get(0).getUserId());
 	}
 
-	public User sign(String imei, String nickname) {
+	public User register(String imei, String nickname) {
 
 		// 验证参数
 		if (StringUtils.isEmpty(imei) || StringUtils.isEmpty(nickname)) {
@@ -93,10 +94,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public boolean checkNickname(String nickname) {
-		// 验证设备
 		UserExample userExample = new UserExample();
+		userExample.createCriteria().andNicknameEqualTo(nickname);
 		List<User> list = userMapper.selectByExample(userExample);
-
-		return false;
+		if (null != list && 0 < list.size()) {
+			return false;
+		}
+		return true;
 	}
 }

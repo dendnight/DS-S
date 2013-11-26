@@ -21,8 +21,8 @@ public class DeviceServiceTest extends AbstractJUnit4SpringContextTests {
 	}
 
 	@Test
-	public void sign() {
-		System.out.println(userService.sign("123123123213215", "dendnight"));
+	public void register() {
+		System.out.println(userService.register("123123123213215", "dendnight"));
 	}
 
 }
