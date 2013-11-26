@@ -2,6 +2,7 @@ package ds.s.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import ds.s.mapper.UserMapper;
 import ds.s.model.Device;
 import ds.s.model.DeviceExample;
 import ds.s.model.User;
+import ds.s.model.UserExample;
 import ds.s.service.UserService;
 
 /**
@@ -38,9 +40,15 @@ public class UserServiceImpl implements UserService {
 	private UserMapper userMapper;
 
 	public User login(String imei) {
-		DeviceExample example = new DeviceExample();
-		example.createCriteria().andImeiEqualTo(imei);
-		List<Device> list = deviceMapper.selectByExample(example);
+
+		// 验证参数
+		if (StringUtils.isEmpty(imei)) {
+			throw new RuntimeException("参数错误!");
+		}
+
+		DeviceExample deviceExample = new DeviceExample();
+		deviceExample.createCriteria().andImeiEqualTo(imei);
+		List<Device> list = deviceMapper.selectByExample(deviceExample);
 
 		if (null == list || 0 == list.size()) {
 			return null;
@@ -50,6 +58,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public User sign(String imei, String nickname) {
+
+		// 验证参数
+		if (StringUtils.isEmpty(imei) || StringUtils.isEmpty(nickname)) {
+			throw new RuntimeException("参数错误!");
+		}
+
+		// 验证设备
+		DeviceExample deviceExample = new DeviceExample();
+		deviceExample.createCriteria().andImeiEqualTo(imei);
+		List<Device> list = deviceMapper.selectByExample(deviceExample);
+
+		if (null != list && 0 < list.size() && null != list.get(0).getUserId()) {
+			throw new RuntimeException("设备已绑定用户!");
+		}
 
 		Device device = new Device();
 		device.setImei(imei);
@@ -68,5 +90,13 @@ public class UserServiceImpl implements UserService {
 		deviceMapper.updateByExampleSelective(device, example);
 
 		return user;
+	}
+
+	public boolean checkNickname(String nickname) {
+		// 验证设备
+		UserExample userExample = new UserExample();
+		List<User> list = userMapper.selectByExample(userExample);
+
+		return false;
 	}
 }

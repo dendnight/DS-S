@@ -21,7 +21,7 @@ import ds.s.model.User;
 public interface UserService {
 
 	/**
-	 * 登录验证设备,null则创建用户
+	 * 登录
 	 * 
 	 * @param imei
 	 * @return
@@ -35,5 +35,13 @@ public interface UserService {
 	 * @param nickname
 	 */
 	User sign(String imei, String nickname);
+
+	/**
+	 * 验证昵称
+	 * 
+	 * @param nickname
+	 * @return
+	 */
+	boolean checkNickname(String nickname);
 
 }

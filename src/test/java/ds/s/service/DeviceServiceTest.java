@@ -13,7 +13,11 @@ public class DeviceServiceTest extends AbstractJUnit4SpringContextTests {
 
 	@Test
 	public void login() {
-		System.out.println(userService.login("123123123213215"));
+		try {
+			System.out.println(userService.login("123123123213215"));
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	@Test
