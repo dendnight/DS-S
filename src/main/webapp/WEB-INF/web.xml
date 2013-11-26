@@ -18,7 +18,7 @@
 
 	<listener>
 		<listener-class>
-		    org.springframework.web.context.ContextLoaderListener
+			org.springframework.web.context.ContextLoaderListener
 		</listener-class>
 	</listener>
 
@@ -26,14 +26,19 @@
 	<filter>
 		<filter-name>struts2</filter-name>
 		<filter-class>
-		    org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter
+			org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter
 		</filter-class>
 
 	</filter>
 
 	<filter-mapping>
 		<filter-name>struts2</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/*.do</url-pattern>
 	</filter-mapping>
+
+	<!-- index config -->
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
 
 </web-app>

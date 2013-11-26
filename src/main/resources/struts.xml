@@ -3,6 +3,10 @@
     "http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
+    
+	<!-- include
+	<include file="res/struts/struts-system.xml"></include> -->
+    
 	<!-- Constants -->
 	<constant name="struts.i18n.encoding" value="UTF-8" />
 	<constant name="struts.action.extension" value="htm" />
@@ -31,9 +35,5 @@
 		</global-results>
 
 	</package>
-
-	<!-- 账号管理 -->
-	<include file="res/struts/struts-system.xml"></include>
-
 
 </struts>
