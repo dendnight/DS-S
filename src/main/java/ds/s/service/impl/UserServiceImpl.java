@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import ds.s.exception.MsgException;
 import ds.s.mapper.DeviceMapper;
 import ds.s.mapper.UserMapper;
 import ds.s.model.Device;
@@ -23,10 +24,10 @@ import ds.s.service.UserService;
  * Company:		DENDNIGHT
  * Author:		dendnight
  * Version:		1.0  
- * Create at:	2013Äê11ÔÂ24ÈÕ ÏÂÎç8:03:00  
+ * Create at:	2013å¹´11æœˆ28æ—¥ ä¸Šåˆ12:24:14  
  *  
- * ĞŞ¸ÄÀúÊ·:
- * ÈÕÆÚ    ×÷Õß    °æ±¾  ĞŞ¸ÄÃèÊö
+ * ä¿®æ”¹å†å²:
+ * æ—¥æœŸ    ä½œè€…    ç‰ˆæœ¬  ä¿®æ”¹æè¿°
  * ------------------------------------------------------------------
  * 
  * </pre>
@@ -42,9 +43,9 @@ public class UserServiceImpl implements UserService {
 
 	public User login(String imei) {
 
-		// ÑéÖ¤²ÎÊı
-		if (StringUtils.isEmpty(imei)) {
-			throw new RuntimeException("²ÎÊı´íÎó!");
+		// éªŒè¯å‚æ•°
+		if (StringUtils.isEmpty(imei) || imei.length() > 15) {
+			throw new RuntimeException("å‚æ•°é”™è¯¯");
 		}
 
 		DeviceExample deviceExample = new DeviceExample();
@@ -58,20 +59,16 @@ public class UserServiceImpl implements UserService {
 		return userMapper.selectByPrimaryKey(list.get(0).getUserId());
 	}
 
-	public User register(String imei, String nickname) {
+	public User register(String imei, String nickname) throws MsgException {
 
-		// ÑéÖ¤²ÎÊı
-		if (StringUtils.isEmpty(imei) || StringUtils.isEmpty(nickname)) {
-			throw new RuntimeException("²ÎÊı´íÎó!");
+		// éªŒè¯å‚æ•°
+		if (StringUtils.isEmpty(imei) || StringUtils.isEmpty(nickname) || imei.length() > 15 || nickname.length() > 12) {
+			throw new RuntimeException("å‚æ•°é”™è¯¯");
 		}
 
-		// ÑéÖ¤Éè±¸
-		DeviceExample deviceExample = new DeviceExample();
-		deviceExample.createCriteria().andImeiEqualTo(imei);
-		List<Device> list = deviceMapper.selectByExample(deviceExample);
-
-		if (null != list && 0 < list.size() && null != list.get(0).getUserId()) {
-			throw new RuntimeException("Éè±¸ÒÑ°ó¶¨ÓÃ»§!");
+		// éªŒè¯æ˜µç§°
+		if (!checkNickname(nickname)) {
+			throw new MsgException("æ˜µç§°å·²å­˜åœ¨");
 		}
 
 		Device device = new Device();
@@ -94,6 +91,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public boolean checkNickname(String nickname) {
+
 		UserExample userExample = new UserExample();
 		userExample.createCriteria().andNicknameEqualTo(nickname);
 		List<User> list = userMapper.selectByExample(userExample);
@@ -101,5 +99,23 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void renickname(String imei, String nickname) throws MsgException {
+
+		// éªŒè¯å‚æ•°
+		if (StringUtils.isEmpty(imei) || StringUtils.isEmpty(nickname) || imei.length() > 15 || nickname.length() > 12) {
+			throw new RuntimeException("å‚æ•°é”™è¯¯");
+		}
+
+		// éªŒè¯æ˜µç§°
+		if (!checkNickname(nickname)) {
+			throw new MsgException("æ˜µç§°å·²å­˜åœ¨");
+		}
+
+		// ä¿®æ”¹æ˜µç§°
+		User user = login(imei);
+		userMapper.updateByPrimaryKeySelective(user);
 	}
 }

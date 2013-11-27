@@ -4,8 +4,6 @@
 
 <struts>
 
-	<!-- include <include file="res/struts/struts-system.xml"></include> -->
-
 	<!-- Constants -->
 	<constant name="struts.objectFactory" value="spring" />
 
@@ -31,8 +29,8 @@
 		</interceptors>
 		<default-interceptor-ref name="baseInterceptorStack"></default-interceptor-ref>
 		<global-results>
-			<result name="error" type="redirect">
-				/timeout.jsp
+			<result name="json" type="json" >
+				<param name="root">json</param>
 			</result>
 		</global-results>
 
@@ -42,11 +40,11 @@
 
 		<action name="login" class="ds.s.action.UserAction" method="login">
 			<result>/WEB-INF/view/main.jsp</result>
-			<result name="other" type="redirect">/timeout.jsp</result>
+			<result name="other" type="redirect">/register.jsp</result>
 		</action>
-		
-		<action name="sign" class="ds.s.action.UserAction" method="sign">
-		    <result>/sign.jsp</result>
+
+		<action name="register" class="ds.s.action.UserAction" method="register">
+			<result>/WEB-INF/view/main.jsp</result>
 		</action>
 	</package>
 </struts>

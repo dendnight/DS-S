@@ -79,6 +79,7 @@
 
 	<!--MyBatis integration with Spring as define sqlSessionFactory -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	    <property name="configLocation" value="classpath:mybatis-configuration.xml"></property>
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 

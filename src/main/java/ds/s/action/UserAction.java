@@ -1,5 +1,8 @@
 package ds.s.action;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
@@ -7,6 +10,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import ds.s.aaaaa.BaseAction;
+import ds.s.exception.MsgException;
 import ds.s.model.User;
 import ds.s.service.UserService;
 
@@ -18,10 +22,10 @@ import ds.s.service.UserService;
  * Company:		DENDNIGHT
  * Author:		dendnight
  * Version:		1.0  
- * Create at:	2013Äê11ÔÂ26ÈÕ ÏÂÎç10:47:12  
+ * Create at:	2013å¹´11æœˆ28æ—¥ ä¸Šåˆ12:21:21  
  *  
- * ĞŞ¸ÄÀúÊ·:
- * ÈÕÆÚ    ×÷Õß    °æ±¾  ĞŞ¸ÄÃèÊö
+ * ä¿®æ”¹å†å²:
+ * æ—¥æœŸ    ä½œè€…    ç‰ˆæœ¬  ä¿®æ”¹æè¿°
  * ------------------------------------------------------------------
  * 
  * </pre>
@@ -38,6 +42,9 @@ public class UserAction extends BaseAction {
 	private String imei;
 
 	private String nickname;
+
+	/** json */
+	private Map<String, Object> json;
 
 	public String login() {
 		if (StringUtils.isEmpty(imei)) {
@@ -56,7 +63,22 @@ public class UserAction extends BaseAction {
 	}
 
 	public String register() {
+		json = new HashMap<String, Object>();
 
+		if (StringUtils.isEmpty(imei) || StringUtils.isEmpty(nickname)) {
+			json.put(MSG, null);
+			return JSON;
+		}
+
+		User user;
+		try {
+			user = userService.register(imei, nickname);
+		} catch (MsgException e) {
+			json.put(MSG, e.getMessage());
+			return JSON;
+		}
+
+		session.put("USERINFO", user);
 		return SUCCESS;
 	}
 
@@ -74,6 +96,10 @@ public class UserAction extends BaseAction {
 
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+
+	public Map<String, Object> getJson() {
+		return json;
 	}
 
 }

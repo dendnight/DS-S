@@ -10,10 +10,10 @@ import ds.s.model.Share;
  * Company:		DENDNIGHT
  * Author:		dendnight
  * Version:		1.0  
- * Create at:	2013Äê11ÔÂ25ÈÕ ÏÂÎç9:34:54  
+ * Create at:	2013å¹´11æœˆ28æ—¥ ä¸Šåˆ12:23:09  
  *  
- * ĞŞ¸ÄÀúÊ·:
- * ÈÕÆÚ    ×÷Õß    °æ±¾  ĞŞ¸ÄÃèÊö
+ * ä¿®æ”¹å†å²:
+ * æ—¥æœŸ    ä½œè€…    ç‰ˆæœ¬  ä¿®æ”¹æè¿°
  * ------------------------------------------------------------------
  * 
  * </pre>
@@ -21,7 +21,7 @@ import ds.s.model.Share;
 public interface ShareService {
 
 	/**
-	 * Ìí¼Ó·ÖÏí
+	 * æ·»åŠ åˆ†äº«
 	 * 
 	 * @param share
 	 */

@@ -1,5 +1,6 @@
 package ds.s.service;
 
+import ds.s.exception.MsgException;
 import ds.s.model.User;
 
 /**
@@ -10,10 +11,10 @@ import ds.s.model.User;
  * Company:		DENDNIGHT
  * Author:		dendnight
  * Version:		1.0  
- * Create at:	2013Äê11ÔÂ25ÈÕ ÏÂÎç9:31:14  
+ * Create at:	2013ï¿½ï¿½11ï¿½ï¿½25ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½9:31:14  
  *  
- * ÐÞ¸ÄÀúÊ·:
- * ÈÕÆÚ    ×÷Õß    °æ±¾  ÐÞ¸ÄÃèÊö
+ * ï¿½Þ¸ï¿½ï¿½ï¿½Ê·:
+ * ï¿½ï¿½ï¿½ï¿½    ï¿½ï¿½ï¿½ï¿½    ï¿½æ±¾  ï¿½Þ¸ï¿½ï¿½ï¿½ï¿½ï¿½
  * ------------------------------------------------------------------
  * 
  * </pre>
@@ -21,7 +22,7 @@ import ds.s.model.User;
 public interface UserService {
 
 	/**
-	 * µÇÂ¼
+	 * ï¿½ï¿½Â¼
 	 * 
 	 * @param imei
 	 * @return
@@ -29,19 +30,28 @@ public interface UserService {
 	User login(String imei);
 
 	/**
-	 * ×¢²á
+	 * ×¢ï¿½ï¿½
 	 * 
 	 * @param imei
 	 * @param nickname
+	 * @throws MsgException
 	 */
-	User register(String imei, String nickname);
+	User register(String imei, String nickname) throws MsgException;
 
 	/**
-	 * ÑéÖ¤êÇ³Æ´æÔÚ·µ»Øfalse
+	 * ï¿½ï¿½Ö¤ï¿½Ç³Æ´ï¿½ï¿½Ú·ï¿½ï¿½ï¿½false
 	 * 
 	 * @param nickname
 	 * @return
 	 */
 	boolean checkNickname(String nickname);
 
+	/**
+	 * ï¿½Þ¸ï¿½ï¿½Ç³ï¿½
+	 * 
+	 * @param imei
+	 * @param nickname
+	 * @throws MsgException
+	 */
+	void renickname(String imei, String nickname) throws MsgException;
 }

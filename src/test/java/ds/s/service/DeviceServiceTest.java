@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
+import ds.s.exception.MsgException;
+
 @ContextConfiguration("classpath:application-context.xml")
 public class DeviceServiceTest extends AbstractJUnit4SpringContextTests {
 
@@ -22,7 +24,12 @@ public class DeviceServiceTest extends AbstractJUnit4SpringContextTests {
 
 	@Test
 	public void register() {
-		System.out.println(userService.register("123123123213215", "dendnight"));
+		try {
+			System.out.println(userService.register("123123123213215", "dendnight"));
+		} catch (MsgException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

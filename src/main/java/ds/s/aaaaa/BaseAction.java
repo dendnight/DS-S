@@ -14,10 +14,10 @@ import com.opensymphony.xwork2.ActionSupport;
  * Company:		DENDNIGHT
  * Author:		dendnight
  * Version:		1.0  
- * Create at:	2013Äê11ÔÂ24ÈÕ ÏÂÎç6:03:46  
+ * Create at:	2013å¹´11æœˆ28æ—¥ ä¸Šåˆ12:21:51  
  *  
- * ĞŞ¸ÄÀúÊ·:
- * ÈÕÆÚ    ×÷Õß    °æ±¾  ĞŞ¸ÄÃèÊö
+ * ä¿®æ”¹å†å²:
+ * æ—¥æœŸ    ä½œè€…    ç‰ˆæœ¬  ä¿®æ”¹æè¿°
  * ------------------------------------------------------------------
  * 
  * </pre>
@@ -27,37 +27,23 @@ public class BaseAction extends ActionSupport implements SessionAware {
 	private static final long serialVersionUID = 541470551483275591L;
 
 	protected Map<String, Object> session;
-	/** ·µ»ØÕıÈ·Ò³Ãæ */
+	/** æ­£ç¡®é¡µé¢ */
 	public final static String SUCCESS = "success";
 
-	/** ·µ»Ø´íÎóÒ³Ãæ */
-	protected final static String ERROR = "error";
-
-	/** ÆäËûÒ³Ãæ */
+	/** ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ */
 	protected final static String OTHER = "other";
 
-	/** ·µ»Øjson */
+	/** ï¿½ï¿½ï¿½ï¿½json */
 	protected final static String JSON = "json";
 
-	private String json;
+	/** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ */
+	protected final static String MSG = "msg";
 
 	/**
-	 * ÉèÖÃsession
+	 * ï¿½ï¿½ï¿½ï¿½session
 	 */
 	public void setSession(Map<String, Object> arg0) {
 		this.session = arg0;
-
-	}
-
-	public String getJson() {
-		return json;
-	}
-
-	public void setJson(String json) {
-		this.json = json;
-	}
-
-	public void setJson() {
 
 	}
 
