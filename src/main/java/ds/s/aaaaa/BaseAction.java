@@ -27,24 +27,21 @@ public class BaseAction extends ActionSupport implements SessionAware {
 	private static final long serialVersionUID = 541470551483275591L;
 
 	protected Map<String, Object> session;
+
 	/** 正确页面 */
 	public final static String SUCCESS = "success";
 
-	/** ����ҳ�� */
-	protected final static String OTHER = "other";
-
-	/** ����json */
+	/** 返回JSON */
 	protected final static String JSON = "json";
 
-	/** ������Ϣ */
+	/** JSON消息 */
 	protected final static String MSG = "msg";
 
-	/**
-	 * ����session
-	 */
+	/** JSON对象 */
+	protected final static String OBJ = "obj";
+
 	public void setSession(Map<String, Object> arg0) {
 		this.session = arg0;
-
 	}
 
 }

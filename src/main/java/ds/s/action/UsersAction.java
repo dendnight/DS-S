@@ -5,12 +5,10 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import ds.s.aaaaa.BaseAction;
-import ds.s.exception.MsgException;
 import ds.s.model.User;
 import ds.s.service.UserService;
 
@@ -30,34 +28,22 @@ import ds.s.service.UserService;
  * 
  * </pre>
  */
-@Controller
+@Controller("UsersAction")
 @Scope("prototype")
-public class UserAction extends BaseAction {
+public class UsersAction extends BaseAction {
 
 	private static final long serialVersionUID = 3366042020883398098L;
 
 	@Resource
-	private UserService userService;
+	private UserService usersService;
 
-	private String imei;
-
-	private String nickname;
+	/** 用户对象 */
+	private User user;
 
 	/** json */
 	private Map<String, Object> json;
 
 	public String login() {
-		if (StringUtils.isEmpty(imei)) {
-			return ERROR;
-		}
-
-		User user = userService.login(imei);
-
-		if (null == user) {
-			return OTHER;
-		}
-
-		session.put("USERINFO", user);
 
 		return SUCCESS;
 	}
@@ -65,37 +51,16 @@ public class UserAction extends BaseAction {
 	public String register() {
 		json = new HashMap<String, Object>();
 
-		if (StringUtils.isEmpty(imei) || StringUtils.isEmpty(nickname)) {
-			json.put(MSG, null);
-			return JSON;
-		}
-
-		User user;
-		try {
-			user = userService.register(imei, nickname);
-		} catch (MsgException e) {
-			json.put(MSG, e.getMessage());
-			return JSON;
-		}
-
 		session.put("USERINFO", user);
 		return SUCCESS;
 	}
 
-	public String getImei() {
-		return imei;
+	public User getUser() {
+		return user;
 	}
 
-	public void setImei(String imei) {
-		this.imei = imei;
-	}
-
-	public String getNickname() {
-		return nickname;
-	}
-
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Map<String, Object> getJson() {

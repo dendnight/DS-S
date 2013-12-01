@@ -16,7 +16,7 @@ import org.mybatis.generator.internal.DefaultShellCallback;
 public class MybatisUtil {
 
 	public static void main(String[] args) throws Exception {
-		// Éú³Émodel,mapper
+		// model,mapper
 
 		List<String> warnings = new ArrayList<String>();
 		boolean overwrite = true;

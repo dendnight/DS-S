@@ -1,9 +1,11 @@
 package ds.s.service;
 
+import ds.s.aaaaa.LoginInfo;
 import ds.s.exception.MsgException;
 import ds.s.model.User;
 
 /**
+ * 用户信息
  * 
  * <pre>
  * Description
@@ -11,10 +13,10 @@ import ds.s.model.User;
  * Company:		DENDNIGHT
  * Author:		dendnight
  * Version:		1.0  
- * Create at:	2013��11��25�� ����9:31:14  
+ * Create at:	2013年11月29日 下午8:51:23  
  *  
- * �޸���ʷ:
- * ����    ����    �汾  �޸�����
+ * 修改历史:
+ * 日期    作者    版本  修改描述
  * ------------------------------------------------------------------
  * 
  * </pre>
@@ -22,36 +24,53 @@ import ds.s.model.User;
 public interface UserService {
 
 	/**
-	 * ��¼
+	 * 添加用户信息
 	 * 
-	 * @param imei
-	 * @return
+	 * @param user
+	 * @return 用户ID
+	 * @throws Exception
 	 */
-	User login(String imei);
+	int add(User user) throws Exception;
 
 	/**
-	 * ע��
+	 * 修改用户信息
+	 * 
+	 * @param user
+	 * @throws Exception
+	 */
+	void update(LoginInfo info, User user) throws Exception;
+
+	/**
+	 * 查询用户信息
+	 * 
+	 * @param users
+	 * @return
+	 */
+	User findUsers(User user);
+
+	/**
+	 * 逻辑删除用户
 	 * 
 	 * @param imei
 	 * @param nickname
 	 * @throws MsgException
 	 */
-	User register(String imei, String nickname) throws MsgException;
+	void delete(LoginInfo info, int id) throws MsgException;;
 
 	/**
-	 * ��֤�ǳƴ��ڷ���false
+	 * 查找用户昵称
 	 * 
 	 * @param nickname
-	 * @return
+	 * @return 存在返回true
 	 */
-	boolean checkNickname(String nickname);
+	boolean findNickname(String nickname);
 
 	/**
-	 * �޸��ǳ�
+	 * 查找用户昵称
 	 * 
-	 * @param imei
 	 * @param nickname
-	 * @throws MsgException
+	 * @return 存在返回true
 	 */
-	void renickname(String imei, String nickname) throws MsgException;
+	boolean findUsername(String username);
+
 }

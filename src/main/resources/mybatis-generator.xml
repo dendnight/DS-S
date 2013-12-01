@@ -51,6 +51,6 @@
 			<!-- 返回主键值 -->
 			<generatedKey column="id" sqlStatement="JDBC" identity="true" />
 		</table>
-		<!-- 生成过的表t_device/t_users/t_share -->
+		<!-- 生成过的表t_user/t_share -->
 	</context>
 </generatorConfiguration>
