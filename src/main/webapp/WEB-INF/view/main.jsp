@@ -9,6 +9,6 @@
 </head>
 <body>
 	<h2>OK!</h2>
-	<s:property value="#session.USERINFO.nickname" />
+	<s:property value="#session.loginInfo.nickname" />
 </body>
 </html>

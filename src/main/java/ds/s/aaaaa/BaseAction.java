@@ -28,17 +28,23 @@ public class BaseAction extends ActionSupport implements SessionAware {
 
 	protected Map<String, Object> session;
 
+	/** 登录信息 */
+	protected static final String LOGININFO = "loginInfo";
+
 	/** 正确页面 */
-	public final static String SUCCESS = "success";
+	protected static final String SUCCESS = "success";
+
+	/** 错误页面 */
+	protected static final String ERROR = "error";
 
 	/** 返回JSON */
-	protected final static String JSON = "json";
+	protected static final String JSON = "json";
 
 	/** JSON消息 */
-	protected final static String MSG = "msg";
+	protected static final String MSG = "msg";
 
 	/** JSON对象 */
-	protected final static String OBJ = "obj";
+	protected static final String OBJ = "obj";
 
 	public void setSession(Map<String, Object> arg0) {
 		this.session = arg0;

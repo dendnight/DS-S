@@ -36,15 +36,16 @@
 
 	</package>
 
-	<package name="index" namespace="/index" extends="default">
+	<package name="index" namespace="/" extends="default">
 
-		<action name="login" class="ds.s.action.UserAction" method="login">
+		<action name="login" class="UserAction" method="login">
 			<result>/WEB-INF/view/main.jsp</result>
-			<result name="other" type="redirect">/register.jsp</result>
+			<result name="error">/index.jsp</result>
 		</action>
 
-		<action name="register" class="ds.s.action.UserAction" method="register">
-			<result>/WEB-INF/view/main.jsp</result>
+		<action name="register" class="UserAction" method="register">
+			<result>/index.jsp</result>
+			<result name="error">/register.jsp</result>
 		</action>
 	</package>
 </struts>

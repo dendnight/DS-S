@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
+import ds.s.model.User;
+
 @ContextConfiguration("classpath:application-context.xml")
 public class DeviceServiceTest extends AbstractJUnit4SpringContextTests {
 
@@ -14,7 +16,8 @@ public class DeviceServiceTest extends AbstractJUnit4SpringContextTests {
 	@Test
 	public void login() {
 		try {
-			// System.out.println(userService.login("123123123213215"));
+			User user = new User();
+			System.out.println(userService.findUser(user));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

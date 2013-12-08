@@ -1,7 +1,6 @@
 package ds.s.service;
 
 import ds.s.aaaaa.LoginInfo;
-import ds.s.exception.MsgException;
 import ds.s.model.User;
 
 /**
@@ -45,17 +44,18 @@ public interface UserService {
 	 * 
 	 * @param users
 	 * @return
+	 * @throws Exception
 	 */
-	User findUsers(User user);
+	User findUser(User user) throws Exception;
 
 	/**
 	 * 逻辑删除用户
 	 * 
 	 * @param imei
 	 * @param nickname
-	 * @throws MsgException
+	 * @throws Exception
 	 */
-	void delete(LoginInfo info, int id) throws MsgException;;
+	void delete(LoginInfo info, int id) throws Exception;;
 
 	/**
 	 * 查找用户昵称

@@ -53,11 +53,12 @@ public class UserServiceImpl implements UserService {
 
 		// 通过IMEI添加
 		if (StringUtils.isNotBlank(user.getImei()) && 15 >= user.getImei().length()) {
+			user.setUserType("PUBLIC");
 			userMapper.insertSelective(user);
 			return user.getId();
 		}
 
-		// 验证帐号
+		// 通过帐号添加
 		if (StringUtils.isNotBlank(user.getUsername()) && StringUtils.isNotBlank(user.getPassword())) {
 			// 验证长度
 			if (12 < user.getUsername().length()) {
@@ -70,6 +71,7 @@ public class UserServiceImpl implements UserService {
 			// 加密密码
 			user.setPassword(MD5.getPassword(user.getPassword()));
 
+			user.setUserType("PUBLIC");
 			userMapper.insertSelective(user);
 			return user.getId();
 		}
@@ -86,7 +88,7 @@ public class UserServiceImpl implements UserService {
 		// 验证是否存在
 		User tempUser = new User();
 		tempUser.setId(user.getId());
-		tempUser = findUsers(tempUser);
+		tempUser = findUser(tempUser);
 		if (StringUtils.isBlank(tempUser.getNickname())) {
 			throw new RuntimeException("用户不存在");
 		}
@@ -107,16 +109,22 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findUsers(User user) {
+	public User findUser(User user) throws Exception {
 		// 验证参数
 		if (null == user) {
 			throw new RuntimeException("参数错误");
 		}
 
-		// IMEI登录
+		// 验证核心参数
+		if (null == user.getId() && StringUtils.isBlank(user.getImei()) && StringUtils.isBlank(user.getUsername())
+				&& StringUtils.isBlank(user.getPassword())) {
+			throw new MsgException("参数错误");
+		}
+
+		// IMEI登录 XXX 后期被人发现肯定有问题
 		if (StringUtils.isNotBlank(user.getImei())) {
 			UserExample userExample = new UserExample();
-			userExample.createCriteria().andNicknameEqualTo(user.getImei()).andDeletedEqualTo(0);
+			userExample.createCriteria().andImeiEqualTo(user.getImei()).andDeletedEqualTo(0);
 			List<User> list = userMapper.selectByExample(userExample);
 			if (null != list && 0 < list.size()) {
 				return list.get(0);
@@ -125,7 +133,7 @@ public class UserServiceImpl implements UserService {
 		// 帐号登录
 		if (StringUtils.isNotBlank(user.getUsername()) && StringUtils.isNotBlank(user.getPassword())) {
 			UserExample userExample = new UserExample();
-			userExample.createCriteria().andNicknameEqualTo(user.getImei())
+			userExample.createCriteria().andUsernameEqualTo(user.getUsername())
 					.andPasswordEqualTo(MD5.getPassword(user.getPassword())).andDeletedEqualTo(0);
 			List<User> list = userMapper.selectByExample(userExample);
 			if (null != list && 0 < list.size()) {
@@ -146,14 +154,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void delete(LoginInfo info, int id) throws MsgException {
+	public void delete(LoginInfo info, int id) throws Exception {
 		if (null == info || info.getId().intValue() != id) {
 			throw new RuntimeException("参数错误");
 		}
 		// 验证是否存在
 		User tempUser = new User();
 		tempUser.setId(id);
-		tempUser = findUsers(tempUser);
+		tempUser = findUser(tempUser);
 		if (StringUtils.isBlank(tempUser.getNickname())) {
 			throw new MsgException("用户不存在");
 		}

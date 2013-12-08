@@ -44,7 +44,7 @@
 		</javaClientGenerator>
 
 		<!-- 要对那些数据表进行生成操作，必须要有一个. -->
-		<table schema="mybatis" tableName="t_share" domainObjectName="Share"
+		<table schema="mybatis" tableName="t_user" domainObjectName="User"
 			enableCountByExample="true" enableUpdateByExample="true"
 			enableDeleteByExample="true" enableSelectByExample="true"
 			selectByExampleQueryId="true">

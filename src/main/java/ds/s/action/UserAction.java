@@ -28,14 +28,14 @@ import ds.s.service.UserService;
  * 
  * </pre>
  */
-@Controller("UsersAction")
+@Controller("UserAction")
 @Scope("prototype")
-public class UsersAction extends BaseAction {
+public class UserAction extends BaseAction {
 
 	private static final long serialVersionUID = 3366042020883398098L;
 
 	@Resource
-	private UserService usersService;
+	private UserService userService;
 
 	/** 用户对象 */
 	private User user;
@@ -45,13 +45,30 @@ public class UsersAction extends BaseAction {
 
 	public String login() {
 
+		User u = null;
+		try {
+			u = userService.findUser(user);
+		} catch (Exception e) {
+			this.addActionMessage(e.getMessage());
+			return ERROR;
+		}
+		if (null == u) {
+			this.addActionMessage("用户名或密码错误");
+			return ERROR;
+		}
+
+		session.put(LOGININFO, u);
 		return SUCCESS;
 	}
 
 	public String register() {
 		json = new HashMap<String, Object>();
-
-		session.put("USERINFO", user);
+		try {
+			userService.add(user);
+		} catch (Exception e) {
+			this.addActionMessage(e.getMessage());
+			return ERROR;
+		}
 		return SUCCESS;
 	}
 

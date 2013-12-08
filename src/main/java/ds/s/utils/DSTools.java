@@ -31,5 +31,6 @@ public class DSTools {
 
 	public static void main(String[] args) {
 		// System.out.println(getRandom(123123));
+		System.out.println("202CB962AC59075B964B07152D234B70".length());
 	}
 }
